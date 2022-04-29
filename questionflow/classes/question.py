@@ -32,6 +32,16 @@ class Question:
         self._answer = None
 
     @property
+    def is_complete(self) -> bool:
+        """
+        :return: True if question has been answered properly, False otherwise.
+        """
+        if not self._answer:
+            return False
+
+        return True
+
+    @property
     def answer(self) -> Union[Answer, None]:
         return self._answer
 

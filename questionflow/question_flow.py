@@ -32,7 +32,9 @@ def _process_multiple_choice_answer(question: MultipleChoiceQuestion, answer_str
 
 class QuestionFlow:
     def __init__(self, questions: List[Union[Question, MultipleChoiceQuestion]]):
-        self._questions = [Question(prompt="INTERNAL: placeholder")] + questions
+        starter_question = Question(prompt="INTERNAL: placeholder")
+        starter_question.add_answer(Answer(value="INTERNAL: placeholder"))
+        self._questions = [starter_question] + questions
         # add an empty element at the beginning to pop
         self._qa_map = {}
         self._current_question_number = 0
@@ -72,6 +74,9 @@ class QuestionFlow:
         """
         if len(self._questions) == 0:  # no questions at all
             return None
+
+        if not self._current_question.is_complete:
+            raise Exception("Current question is incomplete.")  # current question is not complete
 
         self._questions.pop(0)  # remove the previous question from the list
 

@@ -59,24 +59,16 @@ class MultipleChoiceQuestion(Question):
         Validate the choice to the question.
         :return: True if the choice is valid, False otherwise.
         """
-        for selection in self._selected_choices:
+        selections = self._selected_choices or []
+
+        if len(selections) + 1 > self._max_number_choices:
+            # adding this would make it too many choices selected
+            return False
+
+        for selection in selections:
             if choice == selection:
                 return True
         return False
-
-    def validate_choices(self) -> bool:
-        """
-        Validate the selected choice(s) to the question. Run after all choices have been collected.
-        Since each choice was validated individually when selected, this method only checks if the
-        number of selected choices is within the range.
-        :return: True if the number of selected choices is within the range, False otherwise.
-        """
-        selections = self._selected_choices or []
-
-        if (len(selections) < self._min_number_choices) or (len(selections) > self._max_number_choices):
-            return False
-
-        return True
 
     def _answer_to_choice(self, answer: Answer) -> Union[Choice, None]:
         """
@@ -155,6 +147,22 @@ class MultipleChoiceQuestion(Question):
 
     def reset_answer(self) -> None:
         self._selected_choices = []
+
+    @property
+    def is_complete(self) -> bool:
+        """
+        :return: True if question has been answered properly, False otherwise.
+        """
+        if not self._selected_choices:
+            return False
+
+        if len(self._selected_choices) < self._min_number_choices:
+            return False
+
+        if len(self._selected_choices) > self._max_number_choices:
+            return False
+
+        return True
 
     @property
     def answer(self) -> List[Choice]:

@@ -1,1 +1,1 @@
-# The base of all nwithan8 RedBot cogs
+# A simple tool for managing your question and answer workflow.

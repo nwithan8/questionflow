@@ -181,3 +181,11 @@ class QuestionFlow:
         if question_number not in self._qa_map.keys():
             return None
         return self._qa_map[question_number]
+
+    @property
+    def questions_and_answers(self) -> dict:
+        """
+        Get the answered questions in the form of a dictionary.
+        :return: dictionary of question number-question pairs
+        """
+        return self._qa_map

@@ -42,7 +42,7 @@ class MultipleChoiceQuestion(Question):
 
     @property
     def prompt(self) -> str:
-        ask = ""
+        ask = self._prompt
         for num, choice in self.choices.items():
             ask += f"\n{num + 1}) {choice.display_value}\n"
         ask += f"\nSelect {self._how_many_choices_can_select_message} (separate with commas)"

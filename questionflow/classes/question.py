@@ -50,6 +50,10 @@ class Question:
         return self._prompt
 
     @property
+    def raw_prompt(self) -> str:
+        return self._prompt
+
+    @property
     def confirmation_prompt(self) -> Union[str, None]:
         if not self.answer:
             return None
